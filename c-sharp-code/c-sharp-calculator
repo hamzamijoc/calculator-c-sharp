@@ -1,0 +1,226 @@
+/*
+ * ##
+ * ## autor:	Hun73r
+ * ## date:	31.1.2018
+ * ## licence:	za-edukaciju
+ * ## desc:	kalkulator-template-c#
+ * ##
+ */
+
+// funkcija Racunaj, vrsi neku od matematickih operacija nad dva broja
+private void Racunaj()
+{
+  // ako su polja brojevi i nisu prazna polja
+  try
+  {
+    // lokalne varijable double tip-a
+    double X = Convert.ToDouble(txtX.Text);
+    double Y = Convert.ToDouble(txtY.Text);
+    double Z = 0;
+    
+    // provjeri da li je korisnik izabrao neku od matematickih operacija
+    ProvjeriMatematickuOperaciju();
+    
+    // pomocne varijable [ string ]
+    string dijeljenjeNulom = "Nije moguce dijeliti s nulom (0)!";    
+    string rezultat = "";
+    
+    // ako je ukljuceno sabiranje [ saberi ]
+    if (cbSabiranje.Checked == true)
+    {
+      // rezultat sabiranja
+      Z = Saberi(X, Y);
+      
+      // prikaz rezultata  u text box-u
+      txtZ.Text = Z.ToString();
+      
+      // prikaz rezultata u string-u [ lblRezultat ]
+      rezultat = "Z = X + Y [ " + 
+      		  Z.ToString() + " = " + 
+		  X.ToString() + " + " + 
+		  Y.ToString() + " ] " ;
+      lblRezultat.Text = rezultat;
+      
+      // postavi znak matematicke operacije na [ lblZnakMatematickeOperacije ]
+      lblZnakMatematickeOperacije.Text = "+";
+    }
+    
+    // ako je ukljuceno oduzimanje [ oduzmi ]
+    if (cbOduzimanje.Checked == true)
+    {
+      // rezultat oduzimanja
+      Z = Oduzmi(X, Y);
+      
+      // prikaz rezultata u text box-u
+      txtZ.Text = Z.ToString();
+      
+      // prikaz rezultata u string-u [ lblRezultat ]
+      rezultat = "Z = X - Y [ " + 
+      		  Z.ToString() + " = " + 
+		  X.ToString() + " - " + 
+		  Y.ToString() + " ] " ;
+      lblRezultat.Text = rezultat;
+      
+      // postavi znak matematicke operacije na [ lblZnakMatematickeOperacije ]
+      lblZnakMatematickeOperacije.Text = "-";
+    }
+    
+    // ako je ukljuceno mnozenje [ mnozi ] 
+    if (cbMnozenje.Checked == true)
+    {
+      // rezultat mnozenja
+      Z = Mnozi(X, Y);
+      
+      // prikaz rezultata u text box-u
+      txtZ.Text = Z.ToString();
+      
+      // prikaz rezultata u string-u [ lblRezultat ]
+      rezultat = "Z = X * Y [ " + 
+      		  Z.ToString() + " = " + 
+		  X.ToString() + " * " + 
+		  Y.ToString() + " ] " ;
+      lblRezultat.Text = rezultat;
+      
+      // postavi znak matematicke operacije na [ lblZnakMatematickeOperacije ]
+      lblZnakMatematickeOperacije.Text = "*";
+    }
+    
+    // ako je ukljuceno dijeljenje i ako Y nije nula(0) [ dijeli ]
+    if (cbDijeljenje.Checked == true)
+    {
+      // ako je Y == 0
+      if (Y == 0)
+      {
+        // Y je nula(0) 
+	// prikaz greske dijeljenja s nulom u text box-u
+	txtZ.Text = dijeljenjeNulom;
+	
+	// prikaz greske dijeljenja s nulom u [ lblRezultat ]
+	rezultat = dijeljenjeNulom;
+	lblRezultat.Text = rezultat;
+      }
+      else
+      {
+        // Y nije nula(0) -> rezultat dijeljenja
+	Z = Dijeli(X, Y);
+	
+	// prikaz rezultata u text box-u
+	txtZ.Text = Z.ToString();
+	
+	// prikaz rezultata u string-u [ lblRezultat ]
+	rezultat = "Z = X / Y [ " + 
+		    Z.ToString() + " = " + 
+		    X.ToString() + " / " + 
+		    Y.ToString() + " ] " ;
+	lblRezultat.Text = rezultat;
+	
+	// postavi znak matematicke operacije na [ lblZnakMatematickeOperacije ]
+	lblZnakMatematickeOperacije.Text = "/";
+      }
+    }
+    
+    // ako je ukljucen modul [ moduliraj ]
+    if (cbModul.Checked == true)
+    {   
+      // rezultat modula
+      Z = Modul(X, Y);
+      
+      // prikaz rezultata u text box-u
+      txtZ.Text = Z.ToString();
+      
+      // prikaz rezultata u string-u [ lblRezultat ]
+      rezultat = "Z = X % Y [ " + 
+      		  Z.ToString() + " = " + 
+		  X.ToString() + " % " + 
+		  Y.ToString() + " ] " ;
+      lblRezultat.Text = rezultat;
+      
+      // postavi znak matematicke operacije na [ lblZnakMatematickeOperacije ]
+      lblZnakMatematickeOperacije.Text = "%";
+    }
+    
+    // ako su ukljucene sve matematicke operacije
+    if (cbSabiranje.Checked     == true &&
+    	cbOduzimanje.Checked    == true &&
+	cbMnozenje.Checked      == true &&
+	cbDijeljenje.Checked    == true &&
+	cbModul.Checked         == true  )
+    {
+      // ako Y nije nula 
+      if (Convert.ToDouble(txtY.Text) != 0)
+      {
+        // sacuvaj vrijednosti matematickih operacija u string-u
+	string rezultatSabiranja    = Saberi(X, Y).ToString();
+	string rezultatOduzimanja   = Oduzmi(X, Y).ToString();
+	string rezultatMnozenja     = Mnozi(X, Y).ToString();
+	string rezultatDijeljenja   = Dijeli(X, Y).ToString();
+	string rezultatModula       = Modul(X, Y).ToString();
+	
+	// prikaz rezultata u text box-u
+	txtZ.Text = "[ " + rezultatSabiranja + " ] " +
+		    "[ " + rezultatOduzimanja + " ] " +
+		    "[ " + rezultatMnozenja + " ] " +
+		    "[ " + rezultatDijeljenja + " ] " +
+		    "[ " + rezultatModula + " ] ";
+		    
+	// prikaz rezultata u string-u [ lblRezultat ]
+	lblRezultat.Text = "Z = X + Y [ " + rezultatSabiranja + 	" ]\n" +
+			   "Z = X - Y [ " + rezultatOduzimanja + 	" ]\n" +
+			   "Z = X * Y [ " + rezultatMnozenja + 		" ]\n" +
+			   "Z = X / Y [ " + rezultatDijeljenja + 	" ]\n" +
+			   "Z = X % Y [ " + rezultatModula + 		" ]";
+	
+	// postavi znak matematicke operacije na [ lblZnakMatematickeOperacije ]
+	lblZnakMatematickeOperacije.Text = "+ - * / %";
+      }
+   }
+ }
+ catch (FormatException e) 
+ {
+   // naslov greske [ string ]
+   string greska           = "Unesite brojeve u polja X i Y!";
+   string greskaNaslov     = "Greska!";
+   
+   // poruka korisniku o gresci
+   MessageBox.Show(greska, greskaNaslov, MessageBoxButtons.OK, MessageBoxIcon.Error);
+   
+   // stvarna greska
+   //MessageBox.Show(e.ToString());
+ }
+}
+
+// funkcija Saberi tipa double vrsi matematicku operaciju sabiranje i vraca rezultat [ double ]
+private double Saberi(double X, double Y) { return X + Y; }
+
+// funkcija Oduzmi tipa double vrsi matematicku operaciju oduzimanja i vraca rezultat [ double ]
+private double Oduzmi(double X, double Y) { return X - Y; }
+
+// funkcija Mnozi tipa double vrsi matematicku operaciju mnozenja i vraca rezultat [ double ]
+private double Mnozi(double X, double Y) { return X * Y; }
+
+// funkcija Dijeli tipa double vrsi matematicku operaciju dijeljenje i vraca rezultat [ double ] ako drugi broj nije nula(0)
+private double Dijeli(double X, double Y) { return Y == 0 ? 0.123456789 : X / Y; }
+
+// funkcija Modul tipa double vrsi matematicku operaciju Modul i vraca rezultat [ double ]
+private double Modul(double X, double Y) { return X % Y; }
+
+
+// provjera da li je neka od matematickih operacija izabrana
+private void ProvjeriMatematickuOperaciju()
+{
+  // ako nijedan check box nije izabran obavjesti korisnika o tome
+  if (	cbSabiranje.Checked    != true &&
+  	cbOduzimanje.Checked   != true &&
+	cbMnozenje.Checked     != true &&
+	cbDijeljenje.Checked   != true &&
+	cbModul.Checked        != true  )
+  {
+    // naslov greske [ string ]
+    string greska           = "Izaberite sve ili neku od matematickih operacija!";
+    string greskaNaslov     = "Matematicka operacija, greska!";
+    
+    // poruka korisniku o gresci
+    MessageBox.Show(greska, greskaNaslov, MessageBoxButtons.OK, MessageBoxIcon.Error);
+  }
+}	
+/************************************************** EOF ***************************************************/
